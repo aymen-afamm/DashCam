@@ -1,5 +1,6 @@
 package com.example.dashcam
 
+import android.annotation.SuppressLint
 import android.Manifest
 import android.content.ContentValues
 import android.content.Context
@@ -13,6 +14,7 @@ import androidx.camera.video.Recorder
 import androidx.camera.video.Recording
 import androidx.camera.video.VideoCapture
 import androidx.camera.view.PreviewView
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,10 +23,10 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Circle
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material3.Button
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -92,6 +94,7 @@ fun CameraScreen(onNavigateToGallery: () -> Unit) {
     }
 }
 
+@SuppressLint("MissingPermission")
 @Composable
 fun CameraContent(
     context: Context,
@@ -185,10 +188,15 @@ fun CameraContent(
                     },
                     containerColor = if (isRecording) MaterialTheme.colorScheme.error else MaterialTheme.colorScheme.primary
                 ) {
-                    Icon(
-                        if (isRecording) Icons.Default.Circle else Icons.Default.PlayArrow,
-                        if (isRecording) "Stop" else "Record"
-                    )
+                    if (isRecording) {
+                        Box(
+                            modifier = Modifier
+                                .size(24.dp)
+                                .background(MaterialTheme.colorScheme.onError, CircleShape)
+                        )
+                    } else {
+                        Text("REC", style = MaterialTheme.typography.labelLarge)
+                    }
                 }
             }
             
